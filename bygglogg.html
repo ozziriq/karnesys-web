@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfölj &amp; Bygglogg | KarneSys 3D</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --accent-hover: #0ea5e9;
+            --border: #334155;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            max-width: 860px;
+            width: 100%;
+        }
+        .top-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 0.85rem;
+            padding: 0.55rem 0.85rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        .nav-brand {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            text-decoration: none;
+            letter-spacing: -0.01em;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+        .nav-brand-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 8px rgba(56, 189, 248, 0.7);
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+        .nav-link {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.4rem 0.85rem;
+            border-radius: 0.55rem;
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            background: rgba(15, 23, 42, 0.35);
+            transition: all 0.2s ease;
+        }
+        .nav-link:hover {
+            color: var(--text-main);
+            background: rgba(51, 65, 85, 0.65);
+            border-color: rgba(148, 163, 184, 0.45);
+        }
+        .nav-link.active {
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--accent);
+            border-color: rgba(56, 189, 248, 0.3);
+        }
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--accent);
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+        h1 {
+            font-size: 2.4rem;
+            letter-spacing: -0.025em;
+            margin-bottom: 0.5rem;
+        }
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Filter controls */
+        .controls-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .filter-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        .filter-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .filter-divider {
+            width: 1px;
+            height: 20px;
+            background: var(--border);
+            margin: 0 0.15rem;
+        }
+        .filter-btn {
+            background: rgba(15, 23, 42, 0.65);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            border-radius: 9999px;
+            padding: 0.35rem 0.85rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .filter-btn:hover {
+            color: var(--text-main);
+            border-color: var(--accent);
+        }
+        .filter-btn.active {
+            background: rgba(56, 189, 248, 0.18);
+            color: var(--accent);
+            border-color: rgba(56, 189, 248, 0.45);
+        }
+        .post-count {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        /* Gallery grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+        .post-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .post-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(56, 189, 248, 0.45);
+        }
+        .post-media {
+            position: relative;
+            aspect-ratio: 4 / 3;
+            background: #0b1220;
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
+        }
+        .post-media::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            box-shadow: inset 0 0 32px rgba(15, 23, 42, 0.65);
+            pointer-events: none;
+            z-index: 1;
+        }
+        .post-media-btn {
+            display: block;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            cursor: zoom-in;
+            position: relative;
+        }
+        .post-media-btn:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: -2px;
+        }
+        .post-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            filter: brightness(0.84) contrast(1.06) saturate(0.95);
+            transition: transform 0.25s ease, filter 0.25s ease;
+        }
+        .post-media-btn:hover img,
+        .post-media-btn:focus-visible img {
+            transform: scale(1.02);
+            filter: brightness(0.92) contrast(1.04) saturate(0.98);
+        }
+        .post-media-zoom {
+            position: absolute;
+            left: 0.6rem;
+            top: 0.6rem;
+            z-index: 2;
+            background: rgba(15, 23, 42, 0.85);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            border-radius: 9999px;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.72rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            pointer-events: none;
+        }
+        .post-media-btn:hover .post-media-zoom,
+        .post-media-btn:focus-visible .post-media-zoom {
+            opacity: 1;
+        }
+        .post-media-counter {
+            position: absolute;
+            right: 0.6rem;
+            top: 0.6rem;
+            z-index: 2;
+            background: rgba(15, 23, 42, 0.85);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            border-radius: 9999px;
+            padding: 0.15rem 0.55rem;
+            font-size: 0.72rem;
+            font-weight: 600;
+            pointer-events: none;
+        }
+        .post-media-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
+            width: 1.9rem;
+            height: 1.9rem;
+            border-radius: 9999px;
+            border: 1px solid var(--border);
+            background: rgba(15, 23, 42, 0.82);
+            color: var(--text-main);
+            font-size: 1.15rem;
+            line-height: 1;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+        }
+        .post-media-arrow:hover,
+        .post-media-arrow:focus-visible {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(15, 23, 42, 0.96);
+            outline: none;
+        }
+        .post-media-arrow.prev {
+            left: 0.5rem;
+        }
+        .post-media-arrow.next {
+            right: 0.5rem;
+        }
+        .post-media-dots {
+            position: absolute;
+            left: 50%;
+            bottom: 0.55rem;
+            transform: translateX(-50%);
+            z-index: 2;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            background: rgba(15, 23, 42, 0.78);
+            border: 1px solid rgba(51, 65, 85, 0.8);
+        }
+        .post-media-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            border: 0;
+            padding: 0;
+            background: var(--text-muted);
+            opacity: 0.55;
+            cursor: pointer;
+            transition: transform 0.15s ease, opacity 0.15s ease, background-color 0.15s ease;
+        }
+        .post-media-dot:hover {
+            opacity: 0.9;
+        }
+        .post-media-dot.active {
+            background: var(--accent);
+            opacity: 1;
+            transform: scale(1.2);
+        }
+        .post-media-dot:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+        .post-media-fallback {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            padding: 1rem;
+            text-align: center;
+        }
+        .post-body {
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+            flex: 1;
+        }
+        .post-badges {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .material-badge {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            padding: 0.2rem 0.65rem;
+            border-radius: 9999px;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+        .category-tag {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .post-title {
+            font-size: 1.15rem;
+            line-height: 1.35;
+            color: var(--text-main);
+        }
+        .post-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+        .post-notes {
+            font-size: 0.93rem;
+            color: #e2e8f0;
+            line-height: 1.55;
+        }
+
+        /* Status / Error box */
+        .status-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .info-box {
+            background: rgba(51, 65, 85, 0.4);
+            border-left: 4px solid var(--accent);
+            padding: 1rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+            margin-top: 0.75rem;
+            font-size: 0.93rem;
+            color: var(--text-muted);
+        }
+        .info-box code {
+            background: rgba(15, 23, 42, 0.85);
+            color: var(--accent);
+            padding: 0.15rem 0.4rem;
+            border-radius: 0.3rem;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 0.85em;
+        }
+
+        .cta-section {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2rem;
+            background: linear-gradient(180deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%);
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+        }
+        .cta-section h3 {
+            font-size: 1.25rem;
+        }
+        .cta-lead {
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            font-size: 1rem;
+        }
+        .cta-email {
+            color: var(--text-muted);
+            margin-top: 0.75rem;
+            font-size: 0.95rem;
+        }
+        .cta-web {
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+            font-size: 0.85rem;
+        }
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: #0f172a;
+            font-weight: 700;
+            padding: 0.85rem 1.75rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-size: 1.05rem;
+            transition: all 0.2s ease;
+            margin-top: 1rem;
+        }
+        .btn:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Lightbox modal */
+        .lightbox[hidden] {
+            display: none;
+        }
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.88);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.25rem;
+        }
+        .lightbox-dialog {
+            position: relative;
+            max-width: 900px;
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.65);
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            z-index: 2;
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 9999px;
+            border: 1px solid var(--border);
+            background: rgba(15, 23, 42, 0.9);
+            color: var(--text-main);
+            font-size: 1.35rem;
+            line-height: 1;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color 0.2s ease, color 0.2s ease;
+        }
+        .lightbox-close:hover,
+        .lightbox-close:focus-visible {
+            border-color: var(--accent);
+            color: var(--accent);
+            outline: none;
+        }
+        .lightbox-media {
+            position: relative;
+            background: #0b1220;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 240px;
+            max-height: 75vh;
+        }
+        .lightbox-media img {
+            max-width: 100%;
+            max-height: 75vh;
+            width: auto;
+            height: auto;
+            display: block;
+            object-fit: contain;
+            filter: brightness(0.92) contrast(1.03);
+        }
+        .lightbox-arrow[hidden] {
+            display: none;
+        }
+        .lightbox-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 9999px;
+            border: 1px solid var(--border);
+            background: rgba(15, 23, 42, 0.88);
+            color: var(--text-main);
+            font-size: 1.5rem;
+            line-height: 1;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color 0.2s ease, color 0.2s ease;
+        }
+        .lightbox-arrow:hover,
+        .lightbox-arrow:focus-visible {
+            border-color: var(--accent);
+            color: var(--accent);
+            outline: none;
+        }
+        .lightbox-arrow.prev {
+            left: 0.75rem;
+        }
+        .lightbox-arrow.next {
+            right: 0.75rem;
+        }
+        .lightbox-caption {
+            padding: 1rem 1.25rem;
+            border-top: 1px solid var(--border);
+        }
+        .lightbox-caption-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        .lightbox-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+        .lightbox-counter[hidden] {
+            display: none;
+        }
+        .lightbox-counter {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent);
+            background: rgba(56, 189, 248, 0.12);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 9999px;
+            padding: 0.1rem 0.55rem;
+            white-space: nowrap;
+        }
+        .lightbox-sub {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+        @media (max-width: 560px) {
+            h1 {
+                font-size: 1.95rem;
+            }
+            .filter-divider {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="top-nav" aria-label="Huvudmeny">
+            <a href="index.html" class="nav-brand">
+                <span class="nav-brand-dot" aria-hidden="true"></span>
+                KarneSys 3D
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Hem</a>
+                <a href="bygglogg.html" class="nav-link active" aria-current="page">Portfölj &amp; Bygglogg</a>
+                <a href="filament.html" class="nav-link">Filamentlager</a>
+            </div>
+        </nav>
+
+        <header>
+            <span class="badge">Landskrona • Lokal 3D-utskrift</span>
+            <h1>Portfölj &amp; Bygglogg</h1>
+            <p class="subtitle">Utvalda 3D-utskrifter, materialtester och praktiska reservdelar från verkstaden hos KarneSys 3D.</p>
+        </header>
+
+        <section class="controls-panel" aria-label="Filtrering">
+            <div class="filter-row">
+                <div id="filter-bar" class="filter-bar" role="group" aria-label="Filtrera efter kategori eller material">
+                    <button type="button" class="filter-btn active" data-filter-type="all" data-filter-value="all" aria-pressed="true">Alla</button>
+                </div>
+                <span id="post-count" class="post-count" aria-live="polite">Laddar projekt…</span>
+            </div>
+        </section>
+
+        <main>
+            <div id="status-container"></div>
+            <div id="gallery-grid" class="gallery-grid" aria-live="polite"></div>
+        </main>
+
+        <div class="cta-section">
+            <h3>Vill du skriva ut något liknande?</h3>
+            <p class="cta-lead">Mejla din 3D-fil eller länk för en kostnadsfri bedömning och offert.</p>
+            <a href="mailto:KarneSys@karnehall.com?subject=3D-utskrift%20förfrågan%20KarneSys" class="btn">Skicka förfrågan via e-post</a>
+            <p class="cta-email">E-post: <strong>KarneSys@karnehall.com</strong></p>
+            <p class="cta-web">Webb: KarneSys.karnehall.com</p>
+        </div>
+
+        <footer>
+            <p>© 2026 KarneSys • Landskrona, Sverige</p>
+        </footer>
+    </div>
+
+    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-title" hidden>
+        <div class="lightbox-dialog">
+            <button type="button" id="lightbox-close" class="lightbox-close" aria-label="Stäng förhandsvisning">&times;</button>
+            <div class="lightbox-media">
+                <button type="button" id="lightbox-prev" class="lightbox-arrow prev" aria-label="Föregående bild" hidden>&#8249;</button>
+                <img id="lightbox-img" src="" alt="">
+                <button type="button" id="lightbox-next" class="lightbox-arrow next" aria-label="Nästa bild" hidden>&#8250;</button>
+            </div>
+            <div class="lightbox-caption">
+                <div class="lightbox-caption-header">
+                    <p id="lightbox-title" class="lightbox-title"></p>
+                    <span id="lightbox-counter" class="lightbox-counter" hidden></span>
+                </div>
+                <p id="lightbox-sub" class="lightbox-sub"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            "use strict";
+
+            var filterBarEl = document.getElementById("filter-bar");
+            var galleryGridEl = document.getElementById("gallery-grid");
+            var statusContainerEl = document.getElementById("status-container");
+            var postCountEl = document.getElementById("post-count");
+
+            var lightboxEl = document.getElementById("lightbox");
+            var lightboxImgEl = document.getElementById("lightbox-img");
+            var lightboxTitleEl = document.getElementById("lightbox-title");
+            var lightboxCounterEl = document.getElementById("lightbox-counter");
+            var lightboxSubEl = document.getElementById("lightbox-sub");
+            var lightboxPrevBtn = document.getElementById("lightbox-prev");
+            var lightboxNextBtn = document.getElementById("lightbox-next");
+            var lightboxCloseBtn = document.getElementById("lightbox-close");
+            var lastFocusedEl = null;
+
+            var lightboxState = {
+                post: null,
+                images: [],
+                index: 0
+            };
+
+            var allPosts = [];
+            var activeFilter = { type: "all", value: "all" };
+
+            function getPostImages(post) {
+                var fallbackAlt = post.alt || post.title || "3D-utskrift från KarneSys";
+                var normalized = [];
+
+                if (Array.isArray(post.images) && post.images.length > 0) {
+                    post.images.forEach(function (item) {
+                        if (typeof item === "string" && item.trim()) {
+                            normalized.push({ src: item.trim(), alt: fallbackAlt });
+                        } else if (item && typeof item === "object") {
+                            var src = item.src || item.image || "";
+                            if (typeof src === "string" && src.trim()) {
+                                normalized.push({
+                                    src: src.trim(),
+                                    alt: item.alt || fallbackAlt
+                                });
+                            }
+                        }
+                    });
+                }
+
+                if (normalized.length === 0 && typeof post.image === "string" && post.image.trim()) {
+                    normalized.push({ src: post.image.trim(), alt: fallbackAlt });
+                }
+
+                return normalized;
+            }
+
+            function renderLightboxSlide() {
+                var images = lightboxState.images;
+                var post = lightboxState.post;
+                if (!post || images.length === 0) {
+                    return;
+                }
+
+                var idx = ((lightboxState.index % images.length) + images.length) % images.length;
+                lightboxState.index = idx;
+                var current = images[idx];
+
+                lightboxImgEl.src = current.src;
+                lightboxImgEl.alt = current.alt || post.title || "Förstorad bild";
+                lightboxTitleEl.textContent = post.title || "";
+                lightboxSubEl.textContent = [post.material, post.printerInfo, current.alt].filter(Boolean).join(" • ");
+                lightboxSubEl.hidden = !lightboxSubEl.textContent;
+
+                var hasMultiple = images.length > 1;
+                lightboxPrevBtn.hidden = !hasMultiple;
+                lightboxNextBtn.hidden = !hasMultiple;
+                lightboxCounterEl.hidden = !hasMultiple;
+                if (hasMultiple) {
+                    lightboxCounterEl.textContent = (idx + 1) + " / " + images.length;
+                }
+            }
+
+            function stepLightbox(delta) {
+                if (lightboxState.images.length <= 1) {
+                    return;
+                }
+                lightboxState.index += delta;
+                renderLightboxSlide();
+            }
+
+            function openLightbox(post, startIndex, triggerEl) {
+                var images = getPostImages(post);
+                if (images.length === 0) {
+                    return;
+                }
+                lastFocusedEl = triggerEl || document.activeElement;
+                lightboxState.post = post;
+                lightboxState.images = images;
+                lightboxState.index = typeof startIndex === "number" ? startIndex : 0;
+
+                renderLightboxSlide();
+                lightboxEl.hidden = false;
+                document.body.style.overflow = "hidden";
+                lightboxCloseBtn.focus();
+            }
+
+            function closeLightbox() {
+                if (lightboxEl.hidden) {
+                    return;
+                }
+                lightboxEl.hidden = true;
+                lightboxImgEl.src = "";
+                lightboxState = { post: null, images: [], index: 0 };
+                document.body.style.overflow = "";
+                if (lastFocusedEl && typeof lastFocusedEl.focus === "function") {
+                    lastFocusedEl.focus();
+                }
+                lastFocusedEl = null;
+            }
+
+            lightboxPrevBtn.addEventListener("click", function () {
+                stepLightbox(-1);
+            });
+            lightboxNextBtn.addEventListener("click", function () {
+                stepLightbox(1);
+            });
+            lightboxCloseBtn.addEventListener("click", closeLightbox);
+            lightboxEl.addEventListener("click", function (event) {
+                if (event.target === lightboxEl) {
+                    closeLightbox();
+                }
+            });
+            document.addEventListener("keydown", function (event) {
+                if (lightboxEl.hidden) {
+                    return;
+                }
+                if (event.key === "Escape") {
+                    closeLightbox();
+                } else if (event.key === "ArrowLeft") {
+                    event.preventDefault();
+                    stepLightbox(-1);
+                } else if (event.key === "ArrowRight") {
+                    event.preventDefault();
+                    stepLightbox(1);
+                }
+            });
+
+            function clearElement(el) {
+                while (el.firstChild) {
+                    el.removeChild(el.firstChild);
+                }
+            }
+
+            function formatSwedishDate(isoDate) {
+                if (!isoDate) {
+                    return "";
+                }
+                var parsed = new Date(isoDate + "T00:00:00");
+                if (isNaN(parsed.getTime())) {
+                    return isoDate;
+                }
+                return parsed.toLocaleDateString("sv-SE", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric"
+                });
+            }
+
+            function createFilterButton(label, type, value, isActive) {
+                var btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = "filter-btn" + (isActive ? " active" : "");
+                btn.textContent = label;
+                btn.dataset.filterType = type;
+                btn.dataset.filterValue = value;
+                btn.setAttribute("aria-pressed", isActive ? "true" : "false");
+                btn.addEventListener("click", function () {
+                    activeFilter = { type: type, value: value };
+                    updateFilterButtonStates();
+                    renderPosts();
+                });
+                return btn;
+            }
+
+            function updateFilterButtonStates() {
+                var buttons = filterBarEl.querySelectorAll(".filter-btn");
+                buttons.forEach(function (btn) {
+                    var matches =
+                        btn.dataset.filterType === activeFilter.type &&
+                        btn.dataset.filterValue === activeFilter.value;
+                    btn.classList.toggle("active", matches);
+                    btn.setAttribute("aria-pressed", matches ? "true" : "false");
+                });
+            }
+
+            function buildFilterButtons(posts) {
+                clearElement(filterBarEl);
+                filterBarEl.appendChild(createFilterButton("Alla", "all", "all", true));
+
+                var categories = [];
+                var materials = [];
+
+                posts.forEach(function (post) {
+                    if (post.category && categories.indexOf(post.category) === -1) {
+                        categories.push(post.category);
+                    }
+                    if (post.material && materials.indexOf(post.material) === -1) {
+                        materials.push(post.material);
+                    }
+                });
+
+                if (categories.length > 0) {
+                    var catDivider = document.createElement("span");
+                    catDivider.className = "filter-divider";
+                    catDivider.setAttribute("aria-hidden", "true");
+                    filterBarEl.appendChild(catDivider);
+
+                    categories.forEach(function (category) {
+                        filterBarEl.appendChild(createFilterButton(category, "category", category, false));
+                    });
+                }
+
+                if (materials.length > 0) {
+                    var matDivider = document.createElement("span");
+                    matDivider.className = "filter-divider";
+                    matDivider.setAttribute("aria-hidden", "true");
+                    filterBarEl.appendChild(matDivider);
+
+                    materials.forEach(function (material) {
+                        filterBarEl.appendChild(createFilterButton(material, "material", material, false));
+                    });
+                }
+            }
+
+            function createPostCard(post) {
+                var article = document.createElement("article");
+                article.className = "post-card";
+
+                var media = document.createElement("div");
+                media.className = "post-media";
+
+                var images = getPostImages(post);
+
+                if (images.length > 0) {
+                    var currentIndex = 0;
+
+                    var mediaBtn = document.createElement("button");
+                    mediaBtn.type = "button";
+                    mediaBtn.className = "post-media-btn";
+                    mediaBtn.setAttribute("aria-label", "Förstora bild: " + (post.title || "3D-utskrift"));
+
+                    var img = document.createElement("img");
+                    img.src = images[0].src;
+                    img.alt = images[0].alt;
+                    img.loading = "lazy";
+
+                    var zoomHint = document.createElement("span");
+                    zoomHint.className = "post-media-zoom";
+                    zoomHint.setAttribute("aria-hidden", "true");
+                    zoomHint.textContent = "Förstora";
+
+                    mediaBtn.addEventListener("click", function () {
+                        openLightbox(post, currentIndex, mediaBtn);
+                    });
+
+                    img.addEventListener("error", function () {
+                        var failedSrc = images[currentIndex] ? images[currentIndex].src : "";
+                        clearElement(media);
+                        var fallback = document.createElement("div");
+                        fallback.className = "post-media-fallback";
+                        fallback.textContent = "Bild kunde inte laddas (" + failedSrc + ")";
+                        media.appendChild(fallback);
+                    });
+
+                    mediaBtn.appendChild(img);
+                    mediaBtn.appendChild(zoomHint);
+                    media.appendChild(mediaBtn);
+
+                    if (images.length > 1) {
+                        var counterEl = document.createElement("span");
+                        counterEl.className = "post-media-counter";
+                        counterEl.setAttribute("aria-live", "polite");
+                        counterEl.textContent = "1 / " + images.length;
+
+                        var prevBtn = document.createElement("button");
+                        prevBtn.type = "button";
+                        prevBtn.className = "post-media-arrow prev";
+                        prevBtn.setAttribute("aria-label", "Föregående bild");
+                        prevBtn.textContent = "‹";
+
+                        var nextBtn = document.createElement("button");
+                        nextBtn.type = "button";
+                        nextBtn.className = "post-media-arrow next";
+                        nextBtn.setAttribute("aria-label", "Nästa bild");
+                        nextBtn.textContent = "›";
+
+                        var dotsWrap = document.createElement("div");
+                        dotsWrap.className = "post-media-dots";
+                        dotsWrap.setAttribute("role", "group");
+                        dotsWrap.setAttribute("aria-label", "Välj bild");
+
+                        var dotButtons = [];
+
+                        function setCardSlide(nextIdx) {
+                            currentIndex = ((nextIdx % images.length) + images.length) % images.length;
+                            img.src = images[currentIndex].src;
+                            img.alt = images[currentIndex].alt;
+                            counterEl.textContent = (currentIndex + 1) + " / " + images.length;
+                            dotButtons.forEach(function (dotBtn, idx) {
+                                var isCurrent = idx === currentIndex;
+                                dotBtn.classList.toggle("active", isCurrent);
+                                dotBtn.setAttribute("aria-pressed", isCurrent ? "true" : "false");
+                            });
+                        }
+
+                        prevBtn.addEventListener("click", function (event) {
+                            event.stopPropagation();
+                            setCardSlide(currentIndex - 1);
+                        });
+
+                        nextBtn.addEventListener("click", function (event) {
+                            event.stopPropagation();
+                            setCardSlide(currentIndex + 1);
+                        });
+
+                        images.forEach(function (_, idx) {
+                            var dotBtn = document.createElement("button");
+                            dotBtn.type = "button";
+                            dotBtn.className = "post-media-dot" + (idx === 0 ? " active" : "");
+                            dotBtn.setAttribute("aria-label", "Visa bild " + (idx + 1) + " av " + images.length);
+                            dotBtn.setAttribute("aria-pressed", idx === 0 ? "true" : "false");
+                            dotBtn.addEventListener("click", function (event) {
+                                event.stopPropagation();
+                                setCardSlide(idx);
+                            });
+                            dotButtons.push(dotBtn);
+                            dotsWrap.appendChild(dotBtn);
+                        });
+
+                        media.appendChild(counterEl);
+                        media.appendChild(prevBtn);
+                        media.appendChild(nextBtn);
+                        media.appendChild(dotsWrap);
+                    }
+                } else {
+                    var noImg = document.createElement("div");
+                    noImg.className = "post-media-fallback";
+                    noImg.textContent = "Ingen bild angiven";
+                    media.appendChild(noImg);
+                }
+
+                var body = document.createElement("div");
+                body.className = "post-body";
+
+                var badges = document.createElement("div");
+                badges.className = "post-badges";
+
+                if (post.material) {
+                    var matBadge = document.createElement("span");
+                    matBadge.className = "material-badge";
+                    matBadge.textContent = post.material;
+                    badges.appendChild(matBadge);
+                }
+
+                if (post.category) {
+                    var catTag = document.createElement("span");
+                    catTag.className = "category-tag";
+                    catTag.textContent = post.category;
+                    badges.appendChild(catTag);
+                }
+
+                var title = document.createElement("h2");
+                title.className = "post-title";
+                title.textContent = post.title || "Namnlöst projekt";
+
+                var meta = document.createElement("div");
+                meta.className = "post-meta";
+
+                if (post.date) {
+                    var timeEl = document.createElement("time");
+                    timeEl.dateTime = post.date;
+                    timeEl.textContent = formatSwedishDate(post.date);
+                    meta.appendChild(timeEl);
+                }
+
+                if (post.printerInfo) {
+                    if (post.date) {
+                        var sep = document.createElement("span");
+                        sep.textContent = "•";
+                        sep.setAttribute("aria-hidden", "true");
+                        meta.appendChild(sep);
+                    }
+                    var printerSpan = document.createElement("span");
+                    printerSpan.textContent = post.printerInfo;
+                    meta.appendChild(printerSpan);
+                }
+
+                var notes = document.createElement("p");
+                notes.className = "post-notes";
+                notes.textContent = post.notes || "";
+
+                body.appendChild(badges);
+                body.appendChild(title);
+                if (meta.childNodes.length > 0) {
+                    body.appendChild(meta);
+                }
+                if (post.notes) {
+                    body.appendChild(notes);
+                }
+
+                article.appendChild(media);
+                article.appendChild(body);
+                return article;
+            }
+
+            function renderPosts() {
+                clearElement(galleryGridEl);
+                clearElement(statusContainerEl);
+
+                var filtered = allPosts.filter(function (post) {
+                    if (activeFilter.type === "all") {
+                        return true;
+                    }
+                    if (activeFilter.type === "category") {
+                        return post.category === activeFilter.value;
+                    }
+                    if (activeFilter.type === "material") {
+                        return post.material === activeFilter.value;
+                    }
+                    return true;
+                });
+
+                postCountEl.textContent = "Visar " + filtered.length + " av " + allPosts.length + " projekt";
+
+                if (filtered.length === 0) {
+                    var emptyCard = document.createElement("div");
+                    emptyCard.className = "status-card";
+                    var p = document.createElement("p");
+                    p.textContent = "Inga inlägg matchade det valda filtret.";
+                    emptyCard.appendChild(p);
+                    statusContainerEl.appendChild(emptyCard);
+                    return;
+                }
+
+                filtered.forEach(function (post) {
+                    galleryGridEl.appendChild(createPostCard(post));
+                });
+            }
+
+            function appendSegmentsWithCode(parent, segments) {
+                segments.forEach(function (segment) {
+                    if (segment.code) {
+                        var codeEl = document.createElement("code");
+                        codeEl.textContent = segment.code;
+                        parent.appendChild(codeEl);
+                    } else {
+                        parent.appendChild(document.createTextNode(segment.text));
+                    }
+                });
+            }
+
+            function showLoadError(error) {
+                clearElement(galleryGridEl);
+                clearElement(statusContainerEl);
+                postCountEl.textContent = "Kunde inte ladda inlägg";
+
+                var card = document.createElement("div");
+                card.className = "status-card";
+
+                var heading = document.createElement("h2");
+                heading.style.fontSize = "1.2rem";
+                heading.style.color = "var(--accent)";
+                heading.style.marginBottom = "0.5rem";
+                heading.textContent = "Byggloggen kunde inte läsas in";
+
+                var isFileProtocol = window.location.protocol === "file:";
+                var msg = document.createElement("p");
+                msg.style.color = "#e2e8f0";
+                msg.textContent = isFileProtocol
+                    ? "Du öppnade sidan direkt via file://. Av säkerhetsskäl blockerar webbläsare hämtning av posts.json från lokala filer."
+                    : "Ett fel uppstod när posts.json skulle hämtas (" + error.message + ").";
+
+                var tip = document.createElement("div");
+                tip.className = "info-box";
+                if (isFileProtocol) {
+                    appendSegmentsWithCode(tip, [
+                        { text: "För att förhandsgranska lokalt, starta en enkel webbserver i mappen " },
+                        { code: "karnesys-web" },
+                        { text: " med t.ex. " },
+                        { code: "python -m http.server 8000" },
+                        { text: " och öppna " },
+                        { code: "http://localhost:8000/bygglogg.html" },
+                        { text: ". På GitHub Pages (" },
+                        { code: "KarneSys.karnehall.com" },
+                        { text: ") fungerar allt automatiskt." }
+                    ]);
+                } else {
+                    appendSegmentsWithCode(tip, [
+                        { text: "Kontrollera att filen " },
+                        { code: "posts.json" },
+                        { text: " ligger i samma mapp som " },
+                        { code: "bygglogg.html" },
+                        { text: " och innehåller giltig JSON." }
+                    ]);
+                }
+
+                card.appendChild(heading);
+                card.appendChild(msg);
+                card.appendChild(tip);
+                statusContainerEl.appendChild(card);
+            }
+
+            function loadPosts() {
+                fetch("posts.json", { cache: "no-cache" })
+                    .then(function (response) {
+                        if (!response.ok) {
+                            throw new Error("HTTP " + response.status);
+                        }
+                        return response.json();
+                    })
+                    .then(function (data) {
+                        if (!Array.isArray(data)) {
+                            throw new Error("posts.json måste innehålla en lista ([...])");
+                        }
+                        allPosts = data.slice().sort(function (a, b) {
+                            return String(b.date || "").localeCompare(String(a.date || ""));
+                        });
+                        buildFilterButtons(allPosts);
+                        renderPosts();
+                    })
+                    .catch(function (err) {
+                        showLoadError(err);
+                    });
+            }
+
+            loadPosts();
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+[
+  {
+    "id": "creality-hyper-pla",
+    "brand": "Creality",
+    "materialGroup": "PLA",
+    "material": "Hyper PLA",
+    "colorName": "Flera färger (specifik lista kommer)",
+    "colorHex": "#94a3b8",
+    "status": "I lager",
+    "bestFor": "Snabba, detaljrika utskrifter, figurer och modeller med jämn och fin ytfinish (inomhusbruk).",
+    "updatedAt": "2026-11-20"
+  },
+  {
+    "id": "creality-hyper-pla-starry-stardust-pink",
+    "brand": "Creality",
+    "materialGroup": "PLA Starry",
+    "material": "Hyper PLA Starry",
+    "colorName": "Stardust Pink",
+    "colorHex": "#7c2d56",
+    "status": "I lager",
+    "bestFor": "Detaljrika figurer, tärningstorn och dekoration – diskret glitter som döljer lagerlinjer fint.",
+    "updatedAt": "2026-11-20"
+  },
+  {
+    "id": "creality-hyper-petg",
+    "brand": "Creality",
+    "materialGroup": "PETG",
+    "material": "Hyper PETG",
+    "colorName": "Flera färger (specifik lista kommer)",
+    "colorHex": "#334155",
+    "status": "I lager",
+    "bestFor": "Slitstarka fästen, clips och funktionella delar med högre värme- och slagtålighet.",
+    "updatedAt": "2026-11-20"
+  }
+]

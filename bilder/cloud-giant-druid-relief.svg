@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500" role="img" aria-labelledby="title-relief desc-relief">
+  <title id="title-relief">3D-relief / Cloud Giant Druid-test</title>
+  <desc id="desc-relief">Stiliserad illustration av en 3D-utskriven relief av en Cloud Giant Druid med fina konturlinjer och 0.2 mm detaljnivå.</desc>
+  <defs>
+    <linearGradient id="bg-grad-2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <pattern id="grid-2" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#334155" stroke-width="0.8" opacity="0.45"/>
+    </pattern>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#bg-grad-2)"/>
+  <rect width="800" height="500" fill="url(#grid-2)"/>
+
+  <!-- Relief plaque frame -->
+  <rect x="200" y="75" width="400" height="350" rx="18" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+  <rect x="218" y="93" width="364" height="314" rx="12" fill="#0f172a" stroke="#38bdf8" stroke-opacity="0.4" stroke-width="1.5"/>
+
+  <!-- Topographic relief contour rings -->
+  <g fill="none" stroke="#38bdf8" stroke-width="1.3">
+    <ellipse cx="400" cy="245" rx="145" ry="118" opacity="0.18"/>
+    <ellipse cx="400" cy="245" rx="120" ry="96" opacity="0.28"/>
+    <ellipse cx="400" cy="245" rx="95" ry="74" opacity="0.42"/>
+  </g>
+
+  <!-- Stylized Cloud Giant Druid silhouette & clouds -->
+  <g fill="#1e293b" stroke="#38bdf8" stroke-width="2" stroke-linejoin="round">
+    <!-- Cloud base -->
+    <path d="M 265 340 Q 250 315 280 305 Q 295 280 330 292 Q 360 272 400 285 Q 445 272 470 295 Q 505 285 520 310 Q 545 318 532 340 Z" fill="#334155"/>
+    <!-- Hooded giant figure -->
+    <path d="M 355 305 L 368 215 Q 375 165 400 155 Q 425 165 432 215 L 445 305 Z" fill="#1e293b"/>
+    <circle cx="400" cy="192" r="22" fill="#0f172a"/>
+    <!-- Flowing beard contour lines -->
+    <path d="M 386 208 Q 400 245 414 208" fill="none" stroke="#94a3b8" stroke-width="1.6"/>
+    <path d="M 392 214 Q 400 238 408 214" fill="none" stroke="#38bdf8" stroke-width="1.2"/>
+    <!-- Druid staff -->
+    <line x1="468" y1="322" x2="468" y2="155" stroke="#38bdf8" stroke-width="3"/>
+    <circle cx="468" cy="143" r="12" fill="#0f172a" stroke="#38bdf8" stroke-width="2"/>
+    <circle cx="468" cy="143" r="4" fill="#38bdf8" stroke="none"/>
+  </g>
+
+  <!-- Fine detail callout -->
+  <g stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3">
+    <line x1="482" y1="143" x2="548" y2="143"/>
+  </g>
+  <text x="554" y="147" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="11">0.2 mm detalj</text>
+
+  <!-- Label badge -->
+  <rect x="28" y="28" width="225" height="32" rx="16" fill="#0f172a" stroke="#38bdf8" stroke-opacity="0.45"/>
+  <text x="140" y="49" text-anchor="middle" fill="#38bdf8" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="600" letter-spacing="0.5">PLA • 0.2 MM RELIEF-TEST</text>
+</svg>

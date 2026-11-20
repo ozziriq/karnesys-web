@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filamentlager | KarneSys 3D</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --accent-hover: #0ea5e9;
+            --border: #334155;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            max-width: 860px;
+            width: 100%;
+        }
+        .top-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 0.85rem;
+            padding: 0.55rem 0.85rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        .nav-brand {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            text-decoration: none;
+            letter-spacing: -0.01em;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+        .nav-brand-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 8px rgba(56, 189, 248, 0.7);
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+        .nav-link {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.4rem 0.85rem;
+            border-radius: 0.55rem;
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            background: rgba(15, 23, 42, 0.35);
+            transition: all 0.2s ease;
+        }
+        .nav-link:hover {
+            color: var(--text-main);
+            background: rgba(51, 65, 85, 0.65);
+            border-color: rgba(148, 163, 184, 0.45);
+        }
+        .nav-link.active {
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--accent);
+            border-color: rgba(56, 189, 248, 0.3);
+        }
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--accent);
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+        h1 {
+            font-size: 2.4rem;
+            letter-spacing: -0.025em;
+            margin-bottom: 0.5rem;
+        }
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Summary bar */
+        .summary-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+        .summary-stat {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 0.85rem;
+            padding: 1rem 1.25rem;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+        }
+        .summary-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            font-weight: 600;
+        }
+        .summary-value {
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-top: 0.15rem;
+        }
+        .summary-value.accent {
+            color: var(--accent);
+        }
+
+        /* Filter controls */
+        .controls-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+        .filter-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        .filter-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            background: rgba(15, 23, 42, 0.65);
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            border-radius: 9999px;
+            padding: 0.35rem 0.85rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .filter-btn:hover {
+            color: var(--text-main);
+            border-color: var(--accent);
+        }
+        .filter-btn.active {
+            background: rgba(56, 189, 248, 0.18);
+            color: var(--accent);
+            border-color: rgba(56, 189, 248, 0.45);
+        }
+        .spool-count {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        /* Spool grid */
+        .spool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+        .spool-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 1.35rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .spool-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(56, 189, 248, 0.45);
+        }
+        .spool-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.9rem;
+        }
+        .color-swatch {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            border: 2px solid rgba(248, 250, 252, 0.25);
+            box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.25), inset 0 -3px 8px rgba(0, 0, 0, 0.45), 0 0 0 3px rgba(15, 23, 42, 0.75);
+        }
+        .spool-title-wrap {
+            flex: 1;
+            min-width: 0;
+        }
+        .spool-badges {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.35rem;
+        }
+        .material-badge {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            padding: 0.15rem 0.6rem;
+            border-radius: 9999px;
+            font-size: 0.76rem;
+            font-weight: 600;
+        }
+        .status-pill {
+            display: inline-block;
+            padding: 0.15rem 0.6rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid transparent;
+        }
+        .status-in-stock {
+            background: rgba(34, 197, 94, 0.14);
+            color: #4ade80;
+            border-color: rgba(34, 197, 94, 0.35);
+        }
+        .status-order {
+            background: rgba(251, 191, 36, 0.14);
+            color: #fbbf24;
+            border-color: rgba(251, 191, 36, 0.35);
+        }
+        .status-out {
+            background: rgba(248, 113, 113, 0.14);
+            color: #f87171;
+            border-color: rgba(248, 113, 113, 0.35);
+        }
+        .spool-color {
+            font-size: 1.08rem;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1.3;
+        }
+        .spool-brand {
+            font-size: 0.84rem;
+            color: var(--text-muted);
+            margin-top: 0.15rem;
+        }
+        .spool-notes {
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            line-height: 1.5;
+            flex: 1;
+        }
+        .spool-footer {
+            border-top: 1px solid rgba(51, 65, 85, 0.7);
+            padding-top: 0.65rem;
+            margin-top: auto;
+        }
+        .spool-updated {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        /* Status / Error box */
+        .status-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .info-box {
+            background: rgba(51, 65, 85, 0.4);
+            border-left: 4px solid var(--accent);
+            padding: 1rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+            margin-top: 0.75rem;
+            font-size: 0.93rem;
+            color: var(--text-muted);
+        }
+        .info-box code {
+            background: rgba(15, 23, 42, 0.85);
+            color: var(--accent);
+            padding: 0.15rem 0.4rem;
+            border-radius: 0.3rem;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 0.85em;
+        }
+
+        .cta-section {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2rem;
+            background: linear-gradient(180deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%);
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+        }
+        .cta-section h3 {
+            font-size: 1.25rem;
+        }
+        .cta-lead {
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            font-size: 1rem;
+        }
+        .cta-email {
+            color: var(--text-muted);
+            margin-top: 0.75rem;
+            font-size: 0.95rem;
+        }
+        .cta-web {
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+            font-size: 0.85rem;
+        }
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: #0f172a;
+            font-weight: 700;
+            padding: 0.85rem 1.75rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-size: 1.05rem;
+            transition: all 0.2s ease;
+            margin-top: 1rem;
+        }
+        .btn:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        @media (max-width: 560px) {
+            h1 {
+                font-size: 1.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="top-nav" aria-label="Huvudmeny">
+            <a href="index.html" class="nav-brand">
+                <span class="nav-brand-dot" aria-hidden="true"></span>
+                KarneSys 3D
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Hem</a>
+                <a href="bygglogg.html" class="nav-link">Portfölj &amp; Bygglogg</a>
+                <a href="filament.html" class="nav-link active" aria-current="page">Filamentlager</a>
+            </div>
+        </nav>
+
+        <header>
+            <span class="badge">Landskrona • Lokal 3D-utskrift</span>
+            <h1>Filamentlager</h1>
+            <p class="subtitle">Aktuella material och färger på lager för utskrifter hos KarneSys 3D. Saknar du en färg? Hör av dig så beställer vi hem.</p>
+        </header>
+
+        <section class="summary-bar" aria-label="Sammanfattning av lager">
+            <div class="summary-stat">
+                <div class="summary-label">Antal färger / filament</div>
+                <div id="summary-total" class="summary-value accent">–</div>
+            </div>
+            <div class="summary-stat">
+                <div class="summary-label">I lager</div>
+                <div id="summary-instock" class="summary-value">–</div>
+            </div>
+            <div class="summary-stat">
+                <div class="summary-label">Materialtyper</div>
+                <div id="summary-groups" class="summary-value">–</div>
+            </div>
+        </section>
+
+        <section class="controls-panel" aria-label="Filtrering">
+            <div class="filter-row">
+                <div id="filter-bar" class="filter-bar" role="group" aria-label="Filtrera efter materialgrupp">
+                    <button type="button" class="filter-btn active" data-group="all" aria-pressed="true">Alla</button>
+                </div>
+                <span id="spool-count" class="spool-count" aria-live="polite">Laddar lager…</span>
+            </div>
+        </section>
+
+        <main>
+            <div id="status-container"></div>
+            <div id="spool-grid" class="spool-grid" aria-live="polite"></div>
+        </main>
+
+        <div class="cta-section">
+            <h3>Önskar du en specifik färg eller material?</h3>
+            <p class="cta-lead">Mejla din 3D-fil och önskat material så kontrollerar vi lager eller tar hem rätt rulle.</p>
+            <a href="mailto:KarneSys@karnehall.com?subject=3D-utskrift%20förfrågan%20KarneSys" class="btn">Skicka förfrågan via e-post</a>
+            <p class="cta-email">E-post: <strong>KarneSys@karnehall.com</strong></p>
+            <p class="cta-web">Webb: KarneSys.karnehall.com</p>
+        </div>
+
+        <footer>
+            <p>© 2026 KarneSys • Landskrona, Sverige</p>
+        </footer>
+    </div>
+
+    <script>
+        (function () {
+            "use strict";
+
+            var summaryTotalEl = document.getElementById("summary-total");
+            var summaryInStockEl = document.getElementById("summary-instock");
+            var summaryGroupsEl = document.getElementById("summary-groups");
+            var filterBarEl = document.getElementById("filter-bar");
+            var spoolGridEl = document.getElementById("spool-grid");
+            var statusContainerEl = document.getElementById("status-container");
+            var spoolCountEl = document.getElementById("spool-count");
+
+            var allSpools = [];
+            var activeGroup = "all";
+
+            function clearElement(el) {
+                while (el.firstChild) {
+                    el.removeChild(el.firstChild);
+                }
+            }
+
+            function formatSwedishDate(isoDate) {
+                if (!isoDate) {
+                    return "";
+                }
+                var parsed = new Date(isoDate + "T00:00:00");
+                if (isNaN(parsed.getTime())) {
+                    return isoDate;
+                }
+                return parsed.toLocaleDateString("sv-SE", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric"
+                });
+            }
+
+            function getStatusClass(status) {
+                var normalized = String(status || "").toLowerCase();
+                if (normalized === "slut") {
+                    return "status-out";
+                }
+                if (normalized === "beställningsvara" || normalized === "lågt saldo") {
+                    return "status-order";
+                }
+                return "status-in-stock";
+            }
+
+            function updateSummary(spools) {
+                var inStockSpools = spools.filter(function (s) {
+                    return String(s.status || "").toLowerCase() === "i lager";
+                });
+                var groups = [];
+                spools.forEach(function (s) {
+                    if (s.materialGroup && groups.indexOf(s.materialGroup) === -1) {
+                        groups.push(s.materialGroup);
+                    }
+                });
+
+                summaryTotalEl.textContent = spools.length + " st";
+                summaryInStockEl.textContent = inStockSpools.length + " st";
+                summaryGroupsEl.textContent = groups.length > 0 ? groups.join(", ") : "–";
+            }
+
+            function createFilterButton(label, groupValue, isActive) {
+                var btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = "filter-btn" + (isActive ? " active" : "");
+                btn.textContent = label;
+                btn.dataset.group = groupValue;
+                btn.setAttribute("aria-pressed", isActive ? "true" : "false");
+                btn.addEventListener("click", function () {
+                    activeGroup = groupValue;
+                    updateFilterStates();
+                    renderSpools();
+                });
+                return btn;
+            }
+
+            function updateFilterStates() {
+                var buttons = filterBarEl.querySelectorAll(".filter-btn");
+                buttons.forEach(function (btn) {
+                    var matches = btn.dataset.group === activeGroup;
+                    btn.classList.toggle("active", matches);
+                    btn.setAttribute("aria-pressed", matches ? "true" : "false");
+                });
+            }
+
+            function buildFilterButtons(spools) {
+                clearElement(filterBarEl);
+                filterBarEl.appendChild(createFilterButton("Alla", "all", true));
+
+                var groups = [];
+                spools.forEach(function (spool) {
+                    if (spool.materialGroup && groups.indexOf(spool.materialGroup) === -1) {
+                        groups.push(spool.materialGroup);
+                    }
+                });
+
+                groups.forEach(function (group) {
+                    filterBarEl.appendChild(createFilterButton(group, group, false));
+                });
+            }
+
+            function createSpoolCard(spool) {
+                var card = document.createElement("article");
+                card.className = "spool-card";
+
+                var header = document.createElement("div");
+                header.className = "spool-header";
+
+                var swatch = document.createElement("span");
+                swatch.className = "color-swatch";
+                swatch.setAttribute("aria-hidden", "true");
+                swatch.style.backgroundColor = /^#[0-9a-fA-F]{3,8}$/.test(String(spool.colorHex || ""))
+                    ? spool.colorHex
+                    : "#334155";
+
+                var titleWrap = document.createElement("div");
+                titleWrap.className = "spool-title-wrap";
+
+                var badges = document.createElement("div");
+                badges.className = "spool-badges";
+
+                var matBadge = document.createElement("span");
+                matBadge.className = "material-badge";
+                matBadge.textContent = spool.material || spool.materialGroup || "Filament";
+                badges.appendChild(matBadge);
+
+                var statusPill = document.createElement("span");
+                statusPill.className = "status-pill " + getStatusClass(spool.status);
+                statusPill.textContent = spool.status || "I lager";
+                badges.appendChild(statusPill);
+
+                var colorHeading = document.createElement("h2");
+                colorHeading.className = "spool-color";
+                colorHeading.textContent = spool.colorName || "Okänd färg";
+
+                var brandLine = document.createElement("p");
+                brandLine.className = "spool-brand";
+                brandLine.textContent = [spool.brand, spool.materialGroup].filter(Boolean).join(" • ");
+
+                titleWrap.appendChild(badges);
+                titleWrap.appendChild(colorHeading);
+                if (brandLine.textContent) {
+                    titleWrap.appendChild(brandLine);
+                }
+
+                header.appendChild(swatch);
+                header.appendChild(titleWrap);
+
+                card.appendChild(header);
+
+                if (spool.bestFor) {
+                    var notes = document.createElement("p");
+                    notes.className = "spool-notes";
+                    notes.textContent = spool.bestFor;
+                    card.appendChild(notes);
+                }
+
+                if (spool.updatedAt) {
+                    var cardFooter = document.createElement("div");
+                    cardFooter.className = "spool-footer";
+
+                    var updated = document.createElement("p");
+                    updated.className = "spool-updated";
+                    updated.textContent = "Uppdaterad: " + formatSwedishDate(spool.updatedAt);
+                    cardFooter.appendChild(updated);
+
+                    card.appendChild(cardFooter);
+                }
+
+                return card;
+            }
+
+            function renderSpools() {
+                clearElement(spoolGridEl);
+                clearElement(statusContainerEl);
+
+                var filtered = allSpools.filter(function (spool) {
+                    return activeGroup === "all" || spool.materialGroup === activeGroup;
+                });
+
+                spoolCountEl.textContent = "Visar " + filtered.length + " av " + allSpools.length + " rullar";
+
+                if (filtered.length === 0) {
+                    var emptyCard = document.createElement("div");
+                    emptyCard.className = "status-card";
+                    var p = document.createElement("p");
+                    p.textContent = "Inga filamentrullar matchade det valda materialfiltret.";
+                    emptyCard.appendChild(p);
+                    statusContainerEl.appendChild(emptyCard);
+                    return;
+                }
+
+                filtered.forEach(function (spool) {
+                    spoolGridEl.appendChild(createSpoolCard(spool));
+                });
+            }
+
+            function appendSegmentsWithCode(parent, segments) {
+                segments.forEach(function (segment) {
+                    if (segment.code) {
+                        var codeEl = document.createElement("code");
+                        codeEl.textContent = segment.code;
+                        parent.appendChild(codeEl);
+                    } else {
+                        parent.appendChild(document.createTextNode(segment.text));
+                    }
+                });
+            }
+
+            function showLoadError(error) {
+                clearElement(spoolGridEl);
+                clearElement(statusContainerEl);
+                spoolCountEl.textContent = "Kunde inte ladda lager";
+
+                var card = document.createElement("div");
+                card.className = "status-card";
+
+                var heading = document.createElement("h2");
+                heading.style.fontSize = "1.2rem";
+                heading.style.color = "var(--accent)";
+                heading.style.marginBottom = "0.5rem";
+                heading.textContent = "Filamentlagret kunde inte läsas in";
+
+                var isFileProtocol = window.location.protocol === "file:";
+                var msg = document.createElement("p");
+                msg.style.color = "#e2e8f0";
+                msg.textContent = isFileProtocol
+                    ? "Du öppnade sidan direkt via file://. Av säkerhetsskäl blockerar webbläsare hämtning av filaments.json från lokala filer."
+                    : "Ett fel uppstod när filaments.json skulle hämtas (" + error.message + ").";
+
+                var tip = document.createElement("div");
+                tip.className = "info-box";
+                if (isFileProtocol) {
+                    appendSegmentsWithCode(tip, [
+                        { text: "För att förhandsgranska lokalt, starta en enkel webbserver i mappen " },
+                        { code: "karnesys-web" },
+                        { text: " med t.ex. " },
+                        { code: "python -m http.server 8000" },
+                        { text: " och öppna " },
+                        { code: "http://localhost:8000/filament.html" },
+                        { text: ". På GitHub Pages (" },
+                        { code: "KarneSys.karnehall.com" },
+                        { text: ") fungerar allt automatiskt." }
+                    ]);
+                } else {
+                    appendSegmentsWithCode(tip, [
+                        { text: "Kontrollera att filen " },
+                        { code: "filaments.json" },
+                        { text: " ligger i samma mapp som " },
+                        { code: "filament.html" },
+                        { text: " och innehåller giltig JSON." }
+                    ]);
+                }
+
+                card.appendChild(heading);
+                card.appendChild(msg);
+                card.appendChild(tip);
+                statusContainerEl.appendChild(card);
+            }
+
+            function loadFilaments() {
+                fetch("filaments.json", { cache: "no-cache" })
+                    .then(function (response) {
+                        if (!response.ok) {
+                            throw new Error("HTTP " + response.status);
+                        }
+                        return response.json();
+                    })
+                    .then(function (data) {
+                        if (!Array.isArray(data)) {
+                            throw new Error("filaments.json måste innehålla en lista ([...])");
+                        }
+                        allSpools = data.slice();
+                        updateSummary(allSpools);
+                        buildFilterButtons(allSpools);
+                        renderSpools();
+                    })
+                    .catch(function (err) {
+                        showLoadError(err);
+                    });
+            }
+
+            loadFilaments();
+        })();
+    </script>
+</body>
+</html>

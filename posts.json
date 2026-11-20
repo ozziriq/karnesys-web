@@ -1,0 +1,40 @@
+[
+  {
+    "id": "dnd-tarningstorn-stardust",
+    "title": "D&D Tärningstorn i Hyper PLA Starry (Stardust Pink)",
+    "date": "2026-11-18",
+    "category": "Rollspel",
+    "material": "Hyper PLA Starry",
+    "printerInfo": "0.4 mm munstycke • Creality K1 Max",
+    "images": [
+      {
+        "src": "bilder/tarningstorn-stardust-1.jpg",
+        "alt": "D&D-tärningstorn i Hyper PLA Starry (Stardust Pink) sett rakt framifrån från spira till borggård"
+      },
+      {
+        "src": "bilder/tarningstorn-stardust-2.jpg",
+        "alt": "Närbild på takpannor och glittrande yta i Stardust Pink"
+      },
+      {
+        "src": "bilder/tarningstorn-stardust-3.jpg",
+        "alt": "Tärningstornet från förhöjd vinkel som visar spiror, skorsten och balkong"
+      },
+      {
+        "src": "bilder/tarningstorn-stardust-4.jpg",
+        "alt": "Sned vinkel av tärningstornet med stenbelagd borggård vid basen"
+      }
+    ],
+    "notes": "Utskrivet på Creality K1 Max med 0.4 mm munstycke och OrcaSlicer i färgen Stardust Pink. Hyper PLA Starry ger en diskret glittereffekt som döljer lagerlinjer väldigt fint på borgmurar och stenstruktur."
+  },
+  {
+    "id": "cloud-giant-druid-relief",
+    "title": "3D-relief / Cloud Giant Druid-test",
+    "date": "2026-11-12",
+    "category": "Test & Relief",
+    "material": "PLA",
+    "printerInfo": "0.2 mm munstycke • Micro Swiss FlowTech",
+    "image": "bilder/cloud-giant-druid-relief.svg",
+    "alt": "Illustration av en 3D-relief med Cloud Giant Druid-motiv",
+    "notes": "Detaljtest av en Cloud Giant Druid-relief med 0.2 mm munstycke och Micro Swiss FlowTech-hotend. Fint flöde kring skägg, mantel och molnformationer – perfekt referens för framtida D&D-projekt."
+  }
+]
