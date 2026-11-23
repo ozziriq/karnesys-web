@@ -27,6 +27,21 @@
     "notes": "Utskrivet på Creality K1 Max med 0.4 mm munstycke och OrcaSlicer i färgen Stardust Pink. Hyper PLA Starry ger en diskret glittereffekt som döljer lagerlinjer väldigt fint på borgmurar och stenstruktur."
   },
   {
+    "id": "aliens-nemesis-tarningstorn",
+    "title": "Tärningstorn till Aliens: Nemesis",
+    "date": "2026-11-15",
+    "category": "Brädspel",
+    "material": "PLA",
+    "printerInfo": "0.4 mm munstycke • Creality K1 Max",
+    "images": [
+      {
+        "src": "bilder/tarningstorn-aliens-nemesis.jpg",
+        "alt": "3D-utskrivet tärningstorn i svart PLA föreställande ett Xenomorph-huvud med skarpa tänder i den öppna käken, detaljerade ribbor längs sidan och en rund räfflad tärningsbricka vid basen"
+      }
+    ],
+    "notes": "Stämningsfullt tärningstorn till brädspelet Aliens: Nemesis, utskrivet i svart PLA på Creality K1 Max med 0.4 mm munstycke. De spetsiga tänderna i gapet och den integrerade runda tärningsbrickan vid basen fångar detaljrikedomen riktigt skarpt."
+  },
+  {
     "id": "cloud-giant-druid-relief",
     "title": "3D-relief / Cloud Giant Druid-test",
     "date": "2026-11-12",
